@@ -1,0 +1,113 @@
+============================================================
+CBI Output Checker
+============================================================
+
+[1] Reading input file...
+    Constraints: fanout=4, length=100
+    Chip: (110, 100)
+    Pins: 1 SRC + 5 sinks
+
+[2] Reading output file...
+    Buffers: 4
+    Levels: 3
+    T_max: 0, T_min: 0, W_cbi: 0
+
+[3] Checking coordinates...
+[4] Checking component overlapping...
+[5] Checking hierarchy structure...
+[6] Checking fanout constraints...
+[7] Checking wire length constraints...
+[8] Verifying arrival times...
+[9] Verifying total wire length...
+
+============================================================
+VALIDATION RESULTS
+============================================================
+
+WARNINGS:
+  ⚠ Calculated arrival times: {'SRC': 0}
+
+ERRORS FOUND:
+  ✗ Wire length violation: SRC total wire length 164 exceeds max 100
+  ✗ W_cbi mismatch: reported 0, calculated 340
+
+Total Errors: 2
+============================================================
+CBI Output Checker
+============================================================
+
+[1] Reading input file...
+    Constraints: fanout=4, length=300
+    Chip: (1000, 1000)
+    Pins: 1 SRC + 99 sinks
+
+[2] Reading output file...
+    Buffers: 78
+    Levels: 8
+    T_max: 0, T_min: 0, W_cbi: 0
+
+[3] Checking coordinates...
+[4] Checking component overlapping...
+[5] Checking hierarchy structure...
+[6] Checking fanout constraints...
+[7] Checking wire length constraints...
+[8] Verifying arrival times...
+[9] Verifying total wire length...
+
+============================================================
+VALIDATION RESULTS
+============================================================
+
+WARNINGS:
+  ⚠ Calculated arrival times: {'SRC': 0}
+
+ERRORS FOUND:
+  ✗ Wire length violation: SRC total wire length 1358 exceeds max 300
+  ✗ Wire length violation: B1 total wire length 438 exceeds max 300
+  ✗ Wire length violation: B26 total wire length 724 exceeds max 300
+  ✗ Wire length violation: B2 total wire length 377 exceeds max 300
+  ✗ Wire length violation: B27 total wire length 566 exceeds max 300
+  ✗ Wire length violation: B52 total wire length 397 exceeds max 300
+  ✗ Wire length violation: B28 total wire length 392 exceeds max 300
+  ✗ Wire length violation: B35 total wire length 699 exceeds max 300
+  ✗ Wire length violation: B53 total wire length 311 exceeds max 300
+  ✗ Wire length violation: B43 total wire length 417 exceeds max 300
+  ✗ W_cbi mismatch: reported 0, calculated 16589
+
+Total Errors: 11
+============================================================
+CBI Output Checker
+============================================================
+
+[1] Reading input file...
+    Constraints: fanout=8, length=450
+    Chip: (1000, 1000)
+    Pins: 1 SRC + 199 sinks
+
+[2] Reading output file...
+    Buffers: 92
+    Levels: 8
+    T_max: 0, T_min: 0, W_cbi: 0
+
+[3] Checking coordinates...
+[4] Checking component overlapping...
+[5] Checking hierarchy structure...
+[6] Checking fanout constraints...
+[7] Checking wire length constraints...
+[8] Verifying arrival times...
+[9] Verifying total wire length...
+
+============================================================
+VALIDATION RESULTS
+============================================================
+
+WARNINGS:
+  ⚠ Calculated arrival times: {'SRC': 0}
+
+ERRORS FOUND:
+  ✗ Wire length violation: SRC total wire length 1700 exceeds max 450
+  ✗ Wire length violation: B1 total wire length 546 exceeds max 450
+  ✗ Wire length violation: B56 total wire length 530 exceeds max 450
+  ✗ W_cbi mismatch: reported 0, calculated 23105
+
+Total Errors: 4

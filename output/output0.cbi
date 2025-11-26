@@ -1,0 +1,11 @@
+.buffer 4 # number of clock buffers
+B1 32 86  # clock buffer coordinates
+B2 46 38
+B3 18 25
+B4 60 44
+.e
+.level 3 # number of tree levels
+1:SRC{B1 B2} # hierarchy
+2:B1{S3 S5} B2{B3 B4} 
+3:B3{S2} B4{S1 S4} 
+.e

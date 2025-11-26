@@ -1,0 +1,6 @@
+executing file: ../output/output0.cbi
+T_max: 141, T_min: 93, W_cbi: 312  timeskew = 1.52
+executing file: ../output/output1.cbi
+T_max: 1755, T_min: 1264, W_cbi: 16290  timeskew =1.389
+executing file: ../output/output2.cbi
+T_max: 1937, T_min: 1171, W_cbi: 23859  timeskew = 1.65
