@@ -128,7 +128,8 @@ void ClockTreeSynthesizer::recursiveBuildWithRMST(Node* parent, std::vector<Node
     // 2. Optimization Pre-check: Check if a single new buffer can handle all targets.
     if (targets.size() <= maxFanout) {
         Point single_buffer_pos = calculateBufferPosition(targets);
-        if (calculateClusterWireLength(single_buffer_pos, targets) <= maxLength) {
+        // if (calculateClusterWireLength(single_buffer_pos, targets) <= maxLength) {
+        if (calculateClusterWireLength(single_buffer_pos, targets) <= maxLength && manhattanDistance(parent->pos, single_buffer_pos) <= maxLength) {
             // --- IMPLEMENTATION START ---
             // Create one buffer for the whole group
             Node* new_buffer = new Node{"B" + std::to_string(buffers.size() + 1), BUFFER};
@@ -168,6 +169,16 @@ void ClockTreeSynthesizer::recursiveBuildWithRMST(Node* parent, std::vector<Node
         buffers.push_back(bufferA);
         bufferA->pos = calculateBufferPosition(groupA);
         
+        // FIX: Check and clamp position to satisfy parent wirelength limit
+        long long distA = manhattanDistance(parent->pos, bufferA->pos);
+        long long limitA = (!groupB.empty()) ? maxLength / 2 : maxLength;
+        limitA -= 5; // Safety margin for overlap resolution
+        if (distA > limitA) {
+             double scale = (double)limitA / distA;
+             bufferA->pos.x = parent->pos.x + (int)((bufferA->pos.x - parent->pos.x) * scale);
+             bufferA->pos.y = parent->pos.y + (int)((bufferA->pos.y - parent->pos.y) * scale);
+        }
+        
         while (occupiedCoordinates.count(bufferA->pos)) { 
             bufferA->pos.x++; 
         }
@@ -184,6 +195,16 @@ void ClockTreeSynthesizer::recursiveBuildWithRMST(Node* parent, std::vector<Node
         Node* bufferB = new Node{"B" + std::to_string(buffers.size() + 1), BUFFER};
         buffers.push_back(bufferB);
         bufferB->pos = calculateBufferPosition(groupB);
+
+        // FIX: Check and clamp position to satisfy parent wirelength limit
+        long long distB = manhattanDistance(parent->pos, bufferB->pos);
+        long long limitB = (!groupA.empty()) ? maxLength / 2 : maxLength;
+        limitB -= 5; // Safety margin for overlap resolution
+        if (distB > limitB) {
+             double scale = (double)limitB / distB;
+             bufferB->pos.x = parent->pos.x + (int)((bufferB->pos.x - parent->pos.x) * scale);
+             bufferB->pos.y = parent->pos.y + (int)((bufferB->pos.y - parent->pos.y) * scale);
+        }
 
         while (occupiedCoordinates.count(bufferB->pos)) { 
             bufferB->pos.x++; 

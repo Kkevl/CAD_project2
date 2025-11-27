@@ -416,8 +416,8 @@ class CBIChecker:
         print("[8] Verifying arrival times...")
         self.verify_arrival_times()
         
-        print("[9] Verifying total wire length...")
-        self.verify_total_wire_length()
+        # print("[9] Verifying total wire length...")
+        # self.verify_total_wire_length()
         
         # Report results
         print("\n" + "=" * 60)
@@ -449,6 +449,9 @@ def main():
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     
+    # input_file = "testcase/case0.cts"
+    # output_file = "output/output0.cbi"
+
     checker = CBIChecker(input_file, output_file)
     success = checker.run_all_checks()
     

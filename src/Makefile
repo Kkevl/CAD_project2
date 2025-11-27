@@ -2,7 +2,7 @@
 
 # Compiler and compilation flags
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -O2 -g
+CXXFLAGS = -std=c++17 -Wall -O0 -g
 
 # The target executable
 TARGET = cbi
