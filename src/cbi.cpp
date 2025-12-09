@@ -384,6 +384,8 @@ ClockTreeSynthesizer::partitionTargetsByKMeans(
     c2 = newC2;
   }
 
+  // Balance enforcement removed - simple K-means produces better wirelength
+  
   return {cluster1, cluster2};
 }
 
@@ -425,9 +427,9 @@ ClockTreeSynthesizer::computeSubtreeDepth(const std::vector<Node *> &cluster) {
   return maxDist;
 }
 
-// FINAL: Geometric Median approximation using Weiszfeld's algorithm
-// This showed the most consistent wirelength improvement across all test cases
-// Minimizes sum of distances from buffer to all children
+// ENHANCED: Geometric Median + Pull toward farthest sink
+// Blends wirelength optimization with skew reduction
+// Moving toward farthest sink reduces T_max (improving skew ratio)
 Point ClockTreeSynthesizer::calculateSkewAwareBufferPosition(
     Node *parent, const std::vector<Node *> &groupA,
     const std::vector<Node *> &groupB, bool forGroupA) {
@@ -442,7 +444,7 @@ Point ClockTreeSynthesizer::calculateSkewAwareBufferPosition(
   // Start with centroid as initial estimate
   Point current = calculateBufferPosition(targetGroup);
 
-  // Weiszfeld's algorithm - iterative refinement toward geometric median
+  // Weiszfeld's algorithm - geometric median for wirelength
   for (int iter = 0; iter < 5; ++iter) {
     double weighted_x = 0, weighted_y = 0;
     double total_weight = 0;
@@ -452,8 +454,8 @@ Point ClockTreeSynthesizer::calculateSkewAwareBufferPosition(
           std::sqrt((current.x - node->pos.x) * (current.x - node->pos.x) +
                     (current.y - node->pos.y) * (current.y - node->pos.y));
       if (d < 1.0)
-        d = 1.0;          // Avoid division by zero
-      double w = 1.0 / d; // Inverse distance weight
+        d = 1.0;
+      double w = 1.0 / d;
       weighted_x += node->pos.x * w;
       weighted_y += node->pos.y * w;
       total_weight += w;
@@ -463,6 +465,26 @@ Point ClockTreeSynthesizer::calculateSkewAwareBufferPosition(
       current.x = (int)(weighted_x / total_weight);
       current.y = (int)(weighted_y / total_weight);
     }
+  }
+
+  // NEW: Find farthest sink and pull buffer slightly toward it
+  // This reduces T_max (longest path) which improves skew ratio
+  Node* farthest = nullptr;
+  long long maxDist = 0;
+  for (const auto& node : targetGroup) {
+    long long d = manhattanDistance(current, node->pos);
+    if (d > maxDist) {
+      maxDist = d;
+      farthest = node;
+    }
+  }
+  
+  if (farthest != nullptr && maxDist > 10) {
+    // Pull 12% toward the farthest sink to reduce T_max
+    // Reduced from 20% to better balance wirelength vs skew
+    double pullFactor = 0.12;
+    current.x = current.x + (int)((farthest->pos.x - current.x) * pullFactor);
+    current.y = current.y + (int)((farthest->pos.y - current.y) * pullFactor);
   }
 
   return current;

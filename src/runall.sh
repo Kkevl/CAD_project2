@@ -17,6 +17,6 @@ for file in "$INPUT_DIR"/*.cts; do
 
     # Run the command
     ./cbi "$file" "$OUTPUT_DIR/$output"
-    python ../checker.py "$file" "$OUTPUT_DIR/$output"
+    python ../cbi_checker.py "$file" "$OUTPUT_DIR/$output"
     echo ""
 done
