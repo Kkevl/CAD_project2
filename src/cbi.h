@@ -69,6 +69,9 @@ private:
                     const std::map<Node*, std::vector<Node*>>& adjList);
     long long calculateClusterWireLength(Point center, const std::vector<Node*>& cluster);
     Point calculateBufferPosition(const std::vector<Node*>& cluster);
+    // NEW: DME-inspired helper functions for skew optimization
+    long long computeSubtreeDepth(const std::vector<Node*>& cluster);
+    Point calculateSkewAwareBufferPosition(Node* parent, const std::vector<Node*>& groupA, const std::vector<Node*>& groupB, bool forGroupA);
     void calculateFinalMetrics();
     void calculateArrivalTimes(Node* node, long long current_time);
     void populateLevelMap(Node* node);
